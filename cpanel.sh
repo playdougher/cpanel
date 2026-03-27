@@ -21,9 +21,9 @@ RELOAD_CMD="\tail -n 5000 '$HISTORY_FILE' | sed -E 's/^: [0-9]+:[0-9]+;//' | sed
 RUN_BG_CMD="$KILL_OLD; \
             echo {} >> '$HISTORY_FILE'; \
             echo -e \"\\n[Background Execution]: \"{} >> $LOG_FILE; \
-            eval stdbuf -oL -eL {} >> $LOG_FILE 2>&1 & echo \$! > $PID_FILE"
+            SYSTEMD_PAGER='' script -q -c "{}" /dev/null >> $LOG_FILE 2>&1 & echo \$! > $PID_FILE"
 
-RUN_FG_CMD="echo {} >> '$HISTORY_FILE'; eval stdbuf -oL -eL {}"
+RUN_FG_CMD="echo {} >> '$HISTORY_FILE'; SYSTEMD_PAGER='' script -q -c "{}" /dev/null"
 
 eval "$RELOAD_CMD" | fzf \
   --ansi \
