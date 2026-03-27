@@ -16,7 +16,7 @@ if [ ! -f "$HISTORY_FILE" ]; then
   HISTORY_FILE="$HOME/.zsh_history"
 fi
 
-RELOAD_CMD="sed -E 's/^: [0-9]+:[0-9]+;//' '$HISTORY_FILE' | tac | awk '!seen[\$0]++' | head -n 2000"
+RELOAD_CMD="tail -n 5000 '$HISTORY_FILE' | sed -E 's/^: [0-9]+:[0-9]+;//' | tac | awk '!seen[\$0]++' | head -n 2000"
 
 RUN_BG_CMD="$KILL_OLD; \
             echo {} >> '$HISTORY_FILE'; \
@@ -28,7 +28,7 @@ RUN_FG_CMD="echo {} >> '$HISTORY_FILE'; eval {}"
 eval "$RELOAD_CMD" | fzf \
   --layout=reverse \
   --header="[Enter/Dbl-Click] Background | [Right-Click/Ctrl+O] Foreground | [Ctrl+V] Fullscreen(less) | [Ctrl+L] Clear" \
-  --preview="tail -n +1 -f $LOG_FILE" \
+  --preview="tail -n 2000 $LOG_FILE" \
   --preview-window="right:60%:wrap:follow" \
   --bind='double-click:execute-silent('"$RUN_BG_CMD"')+reload('"$RELOAD_CMD"')' \
   --bind='enter:execute-silent('"$RUN_BG_CMD"')+reload('"$RELOAD_CMD"')' \
