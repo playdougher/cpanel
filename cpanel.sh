@@ -34,11 +34,12 @@ eval "$RELOAD_CMD" | fzf \
   --ansi \
   --tiebreak=index \
   --layout=reverse \
-  --header="[Enter/Dbl-Click] Background | [Right-Click/Ctrl+O] Foreground | [Ctrl+V] Fullscreen(less) | [Ctrl+L] Clear" \
+  --header="[Enter/Dbl-Click] Background | [Alt-Enter] Execute Input | [Right-Click/Ctrl+O] Foreground | [Ctrl+V] Fullscreen(less) | [Ctrl+L] Clear" \
   --preview="\tail -n 2000 $LOG_FILE" \
   --preview-window="right:60%:wrap:follow" \
   --bind='double-click:execute-silent('"$RUN_BG_CMD"')+reload('"$RELOAD_CMD"')' \
   --bind='enter:execute-silent('"$RUN_BG_CMD"')+reload('"$RELOAD_CMD"')' \
+  --bind='alt-enter:execute-silent('"$RUN_QUERY_BG_CMD"')+reload('"$RELOAD_CMD"')' \
   --bind='right-click:execute('"$RUN_FG_CMD"')+reload('"$RELOAD_CMD"')' \
   --bind='alt-j:jump' \
   --bind='ctrl-o:execute('"$RUN_FG_CMD"')+reload('"$RELOAD_CMD"')' \
