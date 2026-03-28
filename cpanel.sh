@@ -25,6 +25,11 @@ RUN_BG_CMD="$KILL_OLD; \
 
 RUN_FG_CMD="echo {} >> '$HISTORY_FILE'; SYSTEMD_PAGER='' script -q -c "{}" /dev/null"
 
+RUN_QUERY_BG_CMD="$KILL_OLD; \
+            echo {q} >> '$HISTORY_FILE'; \
+            echo -e \"\\n[Background Execution]: \"{q} >> $LOG_FILE; \
+            SYSTEMD_PAGER='' script -q -c \"{q}\" /dev/null >> $LOG_FILE 2>&1 & echo \$! > $PID_FILE"
+
 eval "$RELOAD_CMD" | fzf \
   --ansi \
   --tiebreak=index \
@@ -35,6 +40,7 @@ eval "$RELOAD_CMD" | fzf \
   --bind='double-click:execute-silent('"$RUN_BG_CMD"')+reload('"$RELOAD_CMD"')' \
   --bind='enter:execute-silent('"$RUN_BG_CMD"')+reload('"$RELOAD_CMD"')' \
   --bind='right-click:execute('"$RUN_FG_CMD"')+reload('"$RELOAD_CMD"')' \
+  --bind='alt-j:jump' \
   --bind='ctrl-o:execute('"$RUN_FG_CMD"')+reload('"$RELOAD_CMD"')' \
   --bind='ctrl-v:execute(less -RX +G '"$LOG_FILE"')' \
   --bind='ctrl-l:execute-silent(echo "=== Execution Log === (Press Ctrl+L to clear)" > '"$LOG_FILE"')'
