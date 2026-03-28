@@ -28,7 +28,7 @@ RUN_FG_CMD="echo {} >> '$HISTORY_FILE'; SYSTEMD_PAGER='' script -q -c "{}" /dev/
 RUN_QUERY_BG_CMD="$KILL_OLD; \
             echo {q} >> '$HISTORY_FILE'; \
             echo -e \"\\n[Background Execution]: \"{q} >> $LOG_FILE; \
-            SYSTEMD_PAGER='' script -q -c \"{q}\" /dev/null >> $LOG_FILE 2>&1 & echo \$! > $PID_FILE"
+            SYSTEMD_PAGER='' script -q -c {q} /dev/null >> $LOG_FILE 2>&1 & echo \$! > $PID_FILE"
 
 eval "$RELOAD_CMD" | fzf \
   --ansi \
